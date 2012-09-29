@@ -1,0 +1,36 @@
+{% extends "../base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+        Registration
+    </h2>
+    
+    <form method='post'>
+        <table>
+            <tr>
+                <td>Email Address</td>
+                <td><input name='email_address'></td>
+            </tr>
+            <tr>
+                <td>Username</td>
+                <td><input name='user_name'></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type='password' name='password'></td>
+            </tr>
+            <tr>
+                <td>Password again</td>
+                <td><input type='password' name='password_again'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type='submit' name='action' value='register'></td>
+            </tr>
+    </form>
+    
+{% endblock %}

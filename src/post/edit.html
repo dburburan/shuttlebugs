@@ -1,0 +1,40 @@
+{% extends "../base.html" %}
+
+{% block head %}
+    <script type="text/javascript" src="/static/ckeditor/ckeditor.js"></script>
+{% endblock %}
+
+{% block content %}
+    <form action='{% ifequal type "page" %}{{title|slugify}}{% endifequal %}{% ifequal type "news" %}{{key}}{% endifequal %}' method='post'>
+        <table>
+            <tr>
+                <td>        
+                    Title: <input id='title_input' type='text' name='title' value='{{title}}'/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea id='content_input' name='content'>{{ content }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    This post is a: {{type|capfirst}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type='submit' value='Save'/>
+                <td>
+            </tr>
+        </table>
+    </form>
+    <script type="text/javascript">
+        CKEDITOR.replace(
+            'content_input',
+            {
+                width:'100%'
+            }
+        );
+    </script>
+{% endblock %}

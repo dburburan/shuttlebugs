@@ -1,0 +1,53 @@
+{% extends "../base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <h3> Active Pages </h3>
+    <ul>
+    {% if not active %}
+        <li> No active pages </li>
+    {% endif %}
+    {% for page in active %}
+        <li> {{ page.title }}
+            <form method='post'>
+                <input type='hidden' name='slug' value='{{page.slug}}'>
+                <a href = '/page/edit/{{page.slug}}'>edit</a>
+                <input type='submit' name='action' value='hide'>
+                <input type='submit' name='action' value='delete'>
+            </form>
+        </li>                
+    {% endfor %}
+    </ul>
+    <h3> Hidden Pages </h3>
+    <ul>
+    {% if not hidden %}
+        <li> No hidden pages </li>
+    {% endif %}
+    {% for page in hidden %}
+        <li> {{ page.title }}
+            <form method='post'>
+                <input type='hidden' name='slug' value='{{page.slug}}'>
+                <a href = '/page/edit/{{page.slug}}'>edit</a>
+                <input type='submit' name='action' value='unhide'>
+                <input type='submit' name='action' value='delete'>
+            </form>
+        </li>                
+    {% endfor %}
+    </ul>
+    <h3> Deleted Pages </h3>
+    <ul>
+    {% if not deleted %}
+        <li> No deleted pages </li>
+    {% endif  %}
+    {% for page in deleted %}
+        <li> {{ page.title }}
+            <form method='post'>
+                <input type='hidden' name='slug' value='{{page.slug}}'>
+                <input type='submit' name='action' value='undelete'>
+            </form>
+        </li>               
+    {% endfor %}        
+    </ul>
+{% endblock %}

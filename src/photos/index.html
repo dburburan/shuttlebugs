@@ -1,0 +1,69 @@
+{% extends "../base.html" %}
+
+{% block content %}
+    <h1> Photo Galleries </h1>
+    <ul>
+        {% if not galleries %}
+            <li> No galleries yet </li>
+        {% endif %}
+        {% for gallery in galleries %}
+            <li><div>
+                <a href="gallery/{{gallery.slug}}/view">{{gallery.title}}</a>
+                <br>gallery added: {{gallery.date|date:"D j M Y"}}
+                <br>{{gallery.description}}                    
+            {% if session.admin %}                  
+                <form class="undashed" method='post'>
+                    <input type = 'hidden' name='id' value='{{gallery.id}}'></input>
+                    <input type = 'hidden' name='action' value='disable'></input>
+                    <input type='submit' value='disable'></input>
+                    <a href="gallery/{{gallery.slug}}/upload">edit</a>                    
+                </form>
+            {% endif %}
+            </div></li>
+        {% endfor %}
+        {% if session.admin %}
+            <li>
+                Add a new gallery:
+                <form method='post'>
+                    <input type = 'hidden' name='action' value='add'></input>
+                    <table>
+                        <tr>
+                            <th>Title</th><td><input type='text' name='title'></td>
+                        </tr>
+                        <tr>
+                            <th>Description</th><td><textarea name='description'></textarea></td>
+                        </tr>
+                        <tr>
+                            <th></th><td><input type='submit' value='add'></td>
+                    </table>
+                </form>
+            </li>
+        {% endif %}       
+    </ul>
+    
+{% if session.admin %}    
+    <h1> Disabled Photo Galleries </h1>
+    These galleries do not appear for regular users.
+    <ul>
+        {% if not disabled %}
+            <li> No disabled galleries </li>
+        {% endif %}
+        {% for gallery in disabled %}
+            <li><div>
+                <a href="gallery/{{gallery.slug}}/view">{{gallery.title}}</a>
+                <br>gallery added: {{gallery.date|date:"D j M Y"}}
+                <br>{{gallery.description}}
+                <form class="undashed" method='post'>
+                    <input type = 'hidden' name='id' value='{{gallery.id}}'></input>
+                    <input type = 'hidden' name='action' value='enable'></input>
+                    <input type='submit' value='enable'></input>
+                    <a href="gallery/{{gallery.slug}}/upload">edit</a>
+                </form>
+            </div></li>
+        {% endfor %}    
+    </ul>
+{% endif %}
+    
+    
+    
+{% endblock %}

@@ -1,0 +1,35 @@
+<table id="next_sessions_widget">
+    {% for item in items %}
+    <tr>
+        <td class='table_column {% if item.sessions %}{% if item.cancel %}cancel{% else %}session{% endif %}{% endif %}'>
+            <table>
+                <tr><td>
+                    {% if item.sessions %}<strong>{% endif %}
+                        {{ item.date|date:"D d M Y" }}
+                    {% if item.sessions %}</strong>{% endif %}                
+                </td></tr>    
+                <tr><td>
+                    {% for session in item.sessions %}
+                        {{ session.name|capfirst }} Session <br>
+                    {% endfor %}
+                    {% if item.sessions %}
+                    {% else %}
+                        &nbsp;
+                    {% endif %}                
+                </td></tr>
+                <tr><td>
+                {% if item.sessions %}
+                    {% if item.cancel %}CANCELLED: {{ item.cancel.reason }}
+                    {% else %}
+                        {% if item.sessions %}Open as usual
+                        {% else %}&nbsp;
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                </td></tr>    
+            </table>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+

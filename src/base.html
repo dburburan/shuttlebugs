@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title>Shuttlebugs Badminton Club</title>
+        <link type="text/css" rel="stylesheet" href="/static/main.css" />
+        {% block head %}{% endblock %}
+    </head>
+    
+    <body>
+        <table id='main'>
+            <tr>
+                <td id='left'>
+                    <div class='no_border' id='nav'>
+                        <a href='/'><img id='logo' src='/static/logo_blue_yellow.png'></img></a>
+                        <ul>
+                            <li><a href='/'>Home</a></li>
+                            <li><a href='/news'>News</a></li>
+                            <li><a href='/session'>Sessions</a></li>
+                            <li><a href='/gallery'>Galleries</a></li>
+                            {% for page in pages %}
+                                <li><a href='/{{page|slugify}}.html'>{{page}}</a></li>
+                            {% endfor %}                    
+                        </ul>
+                    </div>
+                    <div id='actions'>
+                        {% if session.user %}
+                            Logged in as {{session.user}}
+                        {% else %}
+                            Not logged in.
+                        {% endif %}
+                        <ul>
+                            {% if session.user %}
+                                <li><a href='/user/logout'>Logout</a></li>
+                                {% if session.admin %}                            
+                                    <li><a href='/post'>New Post</a></li>
+                                    <li><a href='/page/manage'>Manage Pages</a></li>
+                                    <li><a href='/session/manage'>Manage Sessions</a></li>
+                                    <li><a href='/user/manage'>Manage Users</a></li>
+                                    <li><a href='/files'>Manage Files</a></li>
+                                {% endif %}
+                            {% else %}
+                                <li><a href='/user/login'>Login</a></li>
+                                <li><a href='/user/register'>Register</a></li>
+                            {% endif %}
+                            {% block actions %}{% endblock %}
+                        </ul>
+                    </div>                        
+                </td>
+                <td id='right'>                           
+                    {% if session.flash %}
+                    <div id='messages'>
+                        <ul>
+                        {% for message in session.flash %}
+                            <li>{{ message }}</li>
+                        {% endfor %}                    
+                        </ul>
+                    </div>
+                    {% endif %}
+                    <div id='content'>
+                        {% if page_title %}<h1 id='title'>{{page_title}}</h1>{% endif %}
+                        {% block content %}
+                        {% endblock %}
+                    </div>          
+                </td>
+            </tr>
+            <tr>
+                <td id='copyright'>Copyright © 2010 Cheesun Choong</td>
+                <td></td>
+            </tr>
+        </table>   
+    </body>
+</html>

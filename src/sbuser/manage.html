@@ -1,0 +1,47 @@
+{% extends "../base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+        Manage Members
+    </h2>
+    
+    <h3>
+        Add Member
+    </h3>
+    
+    <form method='post'>
+        <table>
+            <tr>
+                <td>Email Address</td>
+                <td><input name='email_address'></td>
+            </tr>
+            <tr>
+                <td>First Name</td>
+                <td><input name='first_name'></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td><input name='last_name'></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type='submit' value='add'></td>
+            </tr>
+        </table>
+    </form>
+
+    <h3>
+        Existing Members
+    </h3>
+    
+    <ul>
+    {% for user in users %}
+        <li>{{ user.first_name }} {{ user.last_name }} - {{ user.email_address }}</li>
+    {% endfor %}
+    </ul>
+    
+{% endblock %}

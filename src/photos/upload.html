@@ -1,0 +1,57 @@
+{% extends "../base.html" %}
+
+{% block content %}
+    <h2> Managing Gallery: {{title}} </h2>
+        <h3> Add Picture </h3>
+        Uploaded pictures will appear in the gallery next time you load it.
+        <form enctype='multipart/form-data' method='post'>
+            <input type='hidden' name = 'action' value='add'></input>
+            <table>
+                <tr>
+                    <th>Choose file</th>
+                    <td><input type='file' name='img'</td>
+                </tr>
+                <tr>
+                    <th>Title</th>
+                    <td><input type='text' name='title'></td>
+                </tr>
+                <tr>
+                    <th>Show on front page</th>
+                    <td><input type='checkbox' name='frontpage' value='frontpage'></td>
+                </tr>                
+                <tr>
+                    <th></th>
+                    <td><input type='submit' value='add'></td>
+                </tr>
+            </table>
+        </form>    
+        <h3> Current Pictures </h3>
+            <table id='thumbnails'>
+            {% for photo in photos %}
+                <tr>
+                    <td rowspan="3"><img src="{{photo.id}}_thumb.{{photo.ext}}"></img></td>
+                    <td><strong>{{photo.caption}}</strong></td>
+                    <td>
+                        <form method="post">
+                            <input type='hidden' name = 'action' value='delete'></input>
+                            <input type='hidden' name = 'id' value='{{photo.id}}'></input>
+                            <input type='submit' value='delete' onclick='return confirm("are you sure?")'></input>
+                        </form>
+                    </td>
+                </tr>                
+                <tr>
+                    <td>{% if photo.fp %}Photo is marked for display on front page.{% else %}&nbsp;{% endif %}</td>
+                    <td>
+                        <form method="post">
+                            <input type='hidden' name = 'action' value='frontpage'></input>
+                            <input type='hidden' name = 'id' value='{{photo.id}}'></input>
+                            <input type='hidden' name='frontpage' value='{% if photo.fp %}exclude{% else %}include{% endif %}'></input>
+                            <input type='submit' value='{% if photo.fp %}exclude{% else %}include on front page{% endif %}'></input>
+                        </form>
+                    </td>            
+                </tr>     
+                <tr><td>&nbsp;</td></tr>       
+            {% endfor %}
+            </table>
+        
+{% endblock %}

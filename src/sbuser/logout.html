@@ -1,0 +1,17 @@
+{% extends "../base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+        {% if session.user %}Logged in as {{ session.user }}{% else %}Not logged in{% endif %}
+    </h2>
+    
+    <form method='post'>
+        Are you sure you want to log out? <br>
+        <input type='submit' name='action' value='logout'>
+    </form>
+    
+{% endblock %}

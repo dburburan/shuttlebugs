@@ -1,0 +1,11 @@
+{% extends "../base.html" %}
+
+{% block actions %}
+    {% if login %}
+        <li><a href='/page/edit/{{page_title|slugify}}'>Edit Page</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {{ content }}
+{% endblock %}

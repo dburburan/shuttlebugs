@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<images>
+{% for photo in photos %}
+    <pic>
+        <image>{{photo.id}}.{{photo.ext}}</image>
+        <thumbnail>{{photo.id}}_thumb.{{photo.ext}}</thumbnail>
+        <caption>{{photo.caption}}</caption>
+    </pic>
+{% endfor %}
+</images>

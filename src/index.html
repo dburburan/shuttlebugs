@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <table>
+        <tr>
+            <td>
+                <div class="box">
+                    <h3> Upcoming Sessions </h3>
+                    {{ upcoming }}
+                </div>
+            </td>
+            <td>
+                <div class="box">
+                    <h3> Pic of the day </h3>
+                    {{ picofday }}
+                </div>
+            </td>
+        </tr>
+    </table>
+    {% for post in posts %}
+        <div>
+            <h3>{{post.title}} </h3> 
+            <em>
+                posted by {{post.author}} at {{post.date|date:"P D j M Y"}}
+            </em>
+            <p>
+                {{post.content}}
+            </p>
+            
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "../base.html" %}
+
+{% block content %}
+    <h1> Club Play Sessions </h1>
+
+    {% for sess in sessions %}
+        <h3> {{ sess.name }} </h3>
+        <table>
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <th>
+                                Time
+                            </th>
+                            <td>
+                                {{ sess.day_of_week }}, {{sess.start_time|time:"P"}} - {{sess.end_time|time:"P"}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Location
+                            </th>
+                            <td>
+                                {{ sess.location }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Price
+                            </th>
+                            <td>
+                                Members: ${{ sess.member_price|floatformat:"-2" }}, Casuals: ${{sess.casual_price|floatformat:"-2"}}
+                            </td>
+                        </tr>                        
+                        <tr>
+                            <th>
+                                Courts
+                            </th>
+                            <td>
+                                {{ sess.courts }}
+                            </td>
+                        </tr>                  
+                    </table>
+                    <p> {{ sess.description }} </p>
+                    <p> For more information about this session please contact the session leader {{ sess.leader }} {% if sess.email %}(<a href='mailto:{{sess.email}}'>{{sess.email}}</a>){% endif %}</p>
+                </td>
+                {% if sess.coords %}
+                    <td>
+                        <a href="http://maps.google.com/maps?q={{sess.quoted_loc}}">
+                            <img src="http://maps.google.com/maps/api/staticmap?center={{ sess.quoted_loc }}&zoom=14&size=200x200&maptype=roadmap&markers=color:blue||{{ sess.coords }}&sensor=false"></img>
+                        </a>
+                    </td>
+                {% endif %}
+            </tr>
+        </table>
+        
+    {% endfor %}
+
+    
+    
+{% endblock %}

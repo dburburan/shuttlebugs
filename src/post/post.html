@@ -1,0 +1,99 @@
+{% extends "../base.html" %}
+
+{% block head %}
+    <script type="text/javascript" src="/static/ckeditor/ckeditor.js"></script>
+{% endblock %}
+
+{% block content %}
+    <form action='post' method='post'>
+        <table>
+            <tr>
+                <td>
+                    Title:
+                    <input id='title_input' type='text' name='title' {% if title %}value='{{title}}'{% endif %} />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    This post is:
+                    <input id='news_radio' type='radio' name='type' value='news' {% ifequal type 'news' %}checked{% endifequal %}/>News
+                    <input id='page_radio' type='radio' name='type' value='page' {% ifequal type 'page' %}checked{% endifequal %}/>Page
+                    <input id='pdf_radio' type='radio' name='type' value='pdf' {% ifequal type 'pdf' %}checked{% endifequal %}/>PDF
+                </td>
+            </tr>
+            <tr id='pdf_entry'>
+                <td>
+                    Enter URL for PDF: <input id='pdf_url_input' name='pdf_url'><input id='pdf_url_submit' type='button' value='embed'><input id='pdf_url_cancel' type='button' value='cancel'>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea id='content_input' name='content'>{{ content }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>       
+                    <input type='submit' value='Save'/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script type="text/javascript">
+        document.getElementById('pdf_radio').checked = false;
+        
+        var current_mode = null;
+        var other_text = '';
+        document.getElementById('pdf_entry').style.display = 'none';
+        var editor = CKEDITOR.replace(
+            'content_input',
+            {
+                width:'100%'
+            }
+        );
+
+        function embed_pdf() {
+            var pdf_url = document.getElementById('pdf_url_input').value;
+            
+            if (pdf_url != '' && pdf_url != null)
+                editor.setData('<p><a href="' + pdf_url + '">click here to download the file</a></p><embed height="80%" width="100%" src="' + pdf_url + '"/>');  
+        }
+
+        function pdf_mode() {
+            var data  = '';
+            if (current_mode == null || current_mode != 'pdf') {
+                data = other_text;
+                other_text = editor.getData();
+                editor.setMode('source');
+                editor.setData(other_text);
+                document.getElementById('pdf_entry').style.display = 'block';
+                embed_pdf();
+            }                
+            current_mode = 'pdf';
+        }
+        
+        function non_pdf_mode() {
+            var data = '';
+            if (current_mode == null || current_mode != 'normal') {
+                data = other_text;
+                other_text = editor.getData();
+                document.getElementById('pdf_entry').style.display = 'none';
+                editor.setMode('wysiwyg');                
+                editor.setData(data);
+                
+            }
+            current_mode = 'normal';
+        }
+       
+        function cancel_pdf() {
+            document.getElementById('pdf_radio').checked = false;
+            non_pdf_mode();
+        }
+        
+        document.getElementById('news_radio').onclick = non_pdf_mode;
+        document.getElementById('page_radio').onclick = non_pdf_mode;
+        document.getElementById('pdf_radio').onclick = pdf_mode;
+        document.getElementById('pdf_url_submit').onclick = embed_pdf;
+        document.getElementById('pdf_url_cancel').onclick = cancel_pdf;
+        
+    </script>
+{% endblock %}

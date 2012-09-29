@@ -1,0 +1,20 @@
+{% extends "../base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <h2>
+    {% if current_alias %}
+        You are currently known as {{ current_alias }} 
+    {% else %}
+        You dont have an alias yet
+    {% endif %}
+    </h2>
+    
+    <form action='alias' method='post'>
+        What would like to be known as from now on? <input id='new_alias' type='text' name='local_name'/>
+        <input type='submit' value='Submit'/>
+    </form>
+
+{% endblock %}

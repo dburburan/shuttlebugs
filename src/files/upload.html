@@ -1,0 +1,55 @@
+{% extends "../base.html" %}
+
+{% block content %}
+    <h2> File Manger </h2>
+        <h3> Add File </h3>
+        <form enctype='multipart/form-data' method='post' action='files'>
+            <table>
+                <tr>
+                    <th>Choose file</th>
+                    <td><input id='file_input' type='file' name='file'></td>
+                </tr>
+                <tr>
+                    <th>Path</th>
+                    <td><input id='path_input' type='text' name='path'></td>
+                </tr>
+                <tr>
+                    <th>Filename</th>
+                    <td><input id='filename_input' type='text' name='filename'></td>
+                </tr>
+                 <tr>
+                    <th></th>
+                    <td><input type='submit' name='action' value='add'></td>
+                </tr>
+            </table>
+        </form>    
+        <h3> Existing Files </h3>
+        <table>
+        {% for file in files %}
+            <tr>
+                <td>files/{{file.path}}{% if file.path %}/{% endif %}</td>
+                <td><strong>{{file.filename}}.{{file.extension}}</strong></td>
+                <td><a href="files/{{file.path}}/{{file.filename}}.{{file.extension}}">link</a></td>
+                <td><a href="files?action=delete&path={{file.path}}&filename={{file.filename}}.{{file.extension}}">delete</a></td>
+            </tr>
+        {% endfor %}
+        </table>
+
+    <script type="text/javascript">
+        file_input = document.getElementById('file_input');
+        filename_input = document.getElementById('filename_input');
+
+        function sanitize_filename(original_filename) {
+            return original_filename.replace(/</g,"").replace(/ /g,"_");
+        }
+
+        function use_filename() {
+            path_array = file_input.value.replace(/\\/g,"/").split("/");
+            base_filename = path_array[path_array.length - 1];
+            filename_input.value = sanitize_filename(base_filename);
+        }
+        
+        file_input.onchange = use_filename;
+    </script>
+    
+{% endblock %}

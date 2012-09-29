@@ -1,0 +1,43 @@
+{% extends "../base.html" %}
+
+{% block content %}
+    <h1> Edit Session </h1>
+
+    <h3> {{ sess_name }} </h3>
+
+        <form method='post'>
+            <input type='hidden' name='type' value='session'>
+            <input type='hidden' name='action' value='add'>
+            <table>                    
+                {% for field in session_form %}
+                <tr>
+                    <th> {{ field.label_tag }} </th>
+                    <td> {{ field }} </td>
+                    <td>
+                        <ul>
+                        {% ifequal field.label "Start time" %}
+                            <li> use 24 hr time </li>
+                        {% endifequal %}
+                        {% ifequal field.label "End time" %}
+                            <li> use 24 hr time </li>
+                        {% endifequal %}                            
+                        {% for error in field.errors %}
+                            <li> {{ error }} </li>
+                        {% endfor %}
+                        </ul>
+                    </td>
+                <tr>
+                {% endfor %}
+                <tr>
+                <th></th><td><input type='submit' value='save'></td>
+                </tr>
+            </table>
+        </form>
+       
+    </ul>
+    
+
+    
+    
+    
+{% endblock %}
