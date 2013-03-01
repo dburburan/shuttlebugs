@@ -26,14 +26,14 @@ class Login(webapp.RequestHandler):
         return self.redirect(users.create_login_url('/'))
 
 class FrontPage(webapp.RequestHandler):
-    
+
     def get(self):
         db_posts = db.GqlQuery('''
             SELECT * FROM Post
             WHERE type IN ('announcement', 'news')
             AND active = TRUE
             ORDER BY date
-            DESC LIMIT 5                
+            DESC LIMIT 5
             ''')
         posts = []
         au_tz = pytz.timezone('Australia/Sydney')
@@ -45,13 +45,13 @@ class FrontPage(webapp.RequestHandler):
                 db_post.author,
                 utc_tz.localize(db_post.date).astimezone(au_tz),
                 db_post.content)
-            posts.append(post)        
+            posts.append(post)
         data = {
-            'upcoming'      : next_session_widget(6),
+            'upcoming'      : next_session_widget(8),
             'picofday'      : pic_of_day_widget(),
             'posts'         : posts,
             'session'       : sessions.Session(),
             'pages'         : Post.get_pages(),
         }
-        return self.response.out.write(template.render('index.html',data))    
+        return self.response.out.write(template.render('index.html',data))
 
