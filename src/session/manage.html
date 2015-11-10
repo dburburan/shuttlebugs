@@ -109,8 +109,8 @@
                 <table>                    
                     {% for field in session_form %}
                     <tr>
-                        <th> {{ field.label_tag }} </th>
-                        <td> {{ field }} </td>
+                        <th> {{ field.label_tag|safe }} </th>
+                        <td> {{ field|safe }} </td>
                         <td>
                             <ul>
                             {% ifequal field.label "Start time" %}
