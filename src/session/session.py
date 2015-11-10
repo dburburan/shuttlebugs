@@ -4,7 +4,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from datetime import date
 
-from google.appengine.ext.db import djangoforms
+import legacy_djangoforms
 
 from sbuser import create_login_details, get_current_user_name, is_current_user_admin, create_login_url, get_email
 from appengine_utilities import sessions as util_sess
@@ -101,7 +101,7 @@ class SessionNotice(db.Model):
 
 
 # Forms
-class SessionForm(djangoforms.ModelForm):
+class SessionForm(legacy_djangoforms.ModelForm):
     class Meta:
         model = Session
         exclude = ['ordering','slug','coordinates']
