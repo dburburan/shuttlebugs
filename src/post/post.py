@@ -41,7 +41,7 @@ class Post(db.Model):
     # override put() to auto populate some fields
     def put(self,*args,**kw):
         self.author = sessions.Session()['user']
-        self.slug = slugify(self.title)
+        self.slug = unicode(slugify(self.title))
         return db.Model.put(self,*args,**kw)
         
 
@@ -69,7 +69,7 @@ class DisplayNews(webapp.RequestHandler):
             'session'       : sessions.Session(),
             'pages'         : Post.get_pages(),
         }
-        return self.response.out.write(template.render('post/news.html',data))
+        return self.response.out.write(unicode(template.render('post/news.html',data)))
 
 class DisplayPost(webapp.RequestHandler):
     
@@ -88,14 +88,14 @@ class DisplayPost(webapp.RequestHandler):
                 'pages'     : Post.get_pages(),
                 'session'   : sessions.Session(),
             }
-            return self.response.out.write(template.render('404.html',data))
+            return self.response.out.write(unicode(template.render('404.html',data)))
         data = {
             'page_title'    : post.title,
             'content'       : convert_emails(post.content),
             'pages'         : Post.get_pages(),
             'session'       : sessions.Session(),
         }
-        return self.response.out.write(template.render('post/page.html',data))    
+        return self.response.out.write(unicode(template.render('post/page.html',data)))    
 
 class DeleteNews(webapp.RequestHandler):
     def get(self,key):
@@ -152,7 +152,7 @@ class EditNews(webapp.RequestHandler):
             'key'       : key,
             'content'   : post.content,
         }
-        return self.response.out.write(template.render('post/edit.html',data))
+        return self.response.out.write(unicode(template.render('post/edit.html',data)))
         
     def post(self,key):
         user = get_current_user_name()
@@ -181,7 +181,7 @@ class EditNews(webapp.RequestHandler):
                 'key'       : key,
                 'pages'     : Post.get_pages(),
                 }
-            return self.response.out.write(template.render('post/edit.html',data))
+            return self.response.out.write(unicode(template.render('post/edit.html',data)))
 
         post.title = title
         post.content = content
@@ -211,7 +211,7 @@ class EditPost(webapp.RequestHandler):
             'type'      : post.type,
             'content'   : post.content,
         }
-        return self.response.out.write(template.render('post/edit.html',data))
+        return self.response.out.write(unicode(template.render('post/edit.html',data)))
         
     def post(self,slug):
         user = get_current_user_name()
@@ -252,7 +252,7 @@ class EditPost(webapp.RequestHandler):
                 'type'      : post.type,
                 'pages'     : Post.get_pages(),
                 }
-            return self.response.out.write(template.render('post/edit.html',data))
+            return self.response.out.write(unicode(template.render('post/edit.html',data)))
 
         post.title = title
         post.content = content
@@ -270,7 +270,7 @@ class CreatePost(webapp.RequestHandler):
             'session' : sess,
             'pages'   : Post.get_pages(),
         }
-        return self.response.out.write(template.render('post/post.html',data))
+        return self.response.out.write(unicode(template.render('post/post.html',data)))
         
     def post(self):        
         title = self.request.get('title')
@@ -304,7 +304,7 @@ class CreatePost(webapp.RequestHandler):
                 'session'   : session,
                 'pages'     : Post.get_pages(),
                 }
-            return self.response.out.write(template.render('post/post.html',data))
+            return self.response.out.write(unicode(template.render('post/post.html',data)))
 
         fixed_type = type
         if fixed_type == 'pdf':
@@ -340,7 +340,7 @@ class ManagePages(webapp.RequestHandler):
             'pages'     : Post.get_pages(),
         }
         
-        return self.response.out.write(template.render('post/manage.html',data))
+        return self.response.out.write(unicode(template.render('post/manage.html',data)))
     
     def get(self):      
         return self.__compose()

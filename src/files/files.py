@@ -44,7 +44,7 @@ class GetFile(webapp.RequestHandler):
         mime_type = mimetypes.guess_type('%s.%s' % (name,ext))[0]
         self.response.headers['Content-Type'] = mime_type
         self.response.headers['Cache-Control'] = "max-age=31536000"
-        return self.response.out.write(file.data)
+        return self.response.out.write(str(file.data))
 
 class ManageGalleries(webapp.RequestHandler):
     def _compose(self,flash=[]):
@@ -56,7 +56,7 @@ class ManageGalleries(webapp.RequestHandler):
             'session'   : sess,
             'galleries' : galleries,
         }
-        return self.response.out.write(template.render('photos/index.html',data))
+        return self.response.out.write(unicode(template.render('photos/index.html',data)))
     def get(self):
         return self._compose()
     @login_required
@@ -76,7 +76,7 @@ class ManageFiles(webapp.RequestHandler):
             'pages'     : Post.get_pages(),
             'files'     : File.all().order('path').order('filename').order('extension').fetch(1000)
         }
-        return self.response.out.write(template.render('files/upload.html',data))        
+        return self.response.out.write(unicode(template.render('files/upload.html',data)))        
 
     @login_required
     def get(self):

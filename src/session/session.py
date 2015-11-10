@@ -149,7 +149,7 @@ class DisplaySessions(webapp.RequestHandler):
             'session'       : util_sess.Session(),
             'sessions'      : sessions,
         }
-        return self.response.out.write(template.render('session/sessions.html',data))
+        return self.response.out.write(unicode(template.render('session/sessions.html',data)))
 
 class EditSession(webapp.RequestHandler):
     
@@ -160,7 +160,7 @@ class EditSession(webapp.RequestHandler):
             'session_form'  : form,
             'sess_name'     : name,
         }
-        return self.response.out.write(template.render('session/edit.html',data))        
+        return self.response.out.write(unicode(template.render('session/edit.html',data)))        
     
     @login_required
     def get(self,session_slug):
@@ -173,7 +173,7 @@ class EditSession(webapp.RequestHandler):
                 'pages'     : Post.get_pages(),
                 'session'   : sess,
             }            
-            return self.response.out.write(template.render('404.html',data))
+            return self.response.out.write(unicode(template.render('404.html',data)))
         
         session_form = SessionForm(instance=session)
         
@@ -191,7 +191,7 @@ class EditSession(webapp.RequestHandler):
                 'pages'     : Post.get_pages(),
                 'session'   : sess,
             }            
-            return self.response.out.write(template.render('404.html',data))        
+            return self.response.out.write(unicode(template.render('404.html',data)))        
                
         try:
             input_data = SessionForm(instance=session,data=self.request.POST)
@@ -230,7 +230,7 @@ class ManageSession(webapp.RequestHandler):
             'session'       : util_sess.Session(),
             'notice_data'   : notice_data,
         }
-        return self.response.out.write(template.render('session/manage.html',data))    
+        return self.response.out.write(unicode(template.render('session/manage.html',data)))    
     
     @login_required
     def get(self):

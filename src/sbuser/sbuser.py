@@ -82,7 +82,7 @@ class ManageUsers(webapp.RequestHandler):
             'session'   : sessions.Session(),
             'users'     : list(db.Query(SBUser).order('first_name').order('last_name').fetch(1000))
         }
-        return self.response.out.write(template.render('sbuser/manage.html',data))
+        return self.response.out.write(unicode(template.render('sbuser/manage.html',data)))
     def post(self):
         sess = sessions.Session()
         if not is_current_user_admin() and not users.is_current_user_admin():
@@ -107,7 +107,7 @@ class Register(webapp.RequestHandler):
             'pages'     : post.Post.get_pages(),            
             'session'   : sessions.Session()
         }
-        return self.response.out.write(template.render('sbuser/register.html',data))
+        return self.response.out.write(unicode(template.render('sbuser/register.html',data)))
         
     def post(self):
         email_address = self.request.get('email_address')
@@ -184,7 +184,7 @@ class Logout(webapp.RequestHandler):
             'pages'     : post.Post.get_pages(),            
             'session'   : session
         }
-        return self.response.out.write(template.render('sbuser/logout.html',data))
+        return self.response.out.write(unicode(template.render('sbuser/logout.html',data)))
     
     def post(self):
         session = sessions.Session()
@@ -203,7 +203,7 @@ class Login(webapp.RequestHandler):
             'session'   : session,
             'target'    : target
         }
-        return self.response.out.write(template.render('sbuser/login.html',data))
+        return self.response.out.write(unicode(template.render('sbuser/login.html',data)))
     
     def post(self):
         session = sessions.Session()
@@ -248,7 +248,7 @@ class SetAlias(webapp.RequestHandler):
             'current_alias' : current_alias,
             'pages'         : post.Post.get_pages()
         }
-        return self.response.out.write(template.render('sbuser/alias.html',data))        
+        return self.response.out.write(unicode(template.render('sbuser/alias.html',data)))        
     
     def get(self):
         return self.__compose()

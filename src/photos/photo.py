@@ -55,11 +55,11 @@ class GallerySWF(webapp.RequestHandler):
         }
         if not gallery:
             self.error(404)
-            return self.response.out.write(template.render('404.html',data))
+            return self.response.out.write(unicode(template.render('404.html',data)))
         data['gallery'] = gallery
         data['photos'] = [ {'id':photo.key().id(), 'caption':photo.title} for photo in gallery.photos ]
         self.response.headers['Content-Type'] = "application/x-shockwave-flash"
-        return self.response.out.write(open('static/main.css','r').read())
+        return self.response.out.write(unicode(open('static/main.css','r').read()))
         
 class ImagesXML(webapp.RequestHandler):
     def get(self,gallery):
@@ -70,11 +70,11 @@ class ImagesXML(webapp.RequestHandler):
         }
         if not gallery:
             self.error(404)
-            return self.response.out.write(template.render('404.html',data))
+            return self.response.out.write(unicode(template.render('404.html',data)))
         data['gallery'] = gallery
         data['photos'] = [ {'id':photo.key().id(), 'caption':photo.title, 'ext':photo.extension} for photo in gallery.photos ]
         self.response.headers['Content-Type'] = "text/xml"
-        return self.response.out.write(template.render('photos/images.xml',data))
+        return self.response.out.write(unicode(template.render('photos/images.xml',data)))
 
 class GetThumb(webapp.RequestHandler):
     def get(self,gallery,id,ext):
@@ -87,7 +87,7 @@ class GetThumb(webapp.RequestHandler):
             mime_type = 'jpeg'
         self.response.headers['Content-Type'] = "image/%s" % mime_type
         self.response.headers['Cache-Control'] = "max-age=31536000"
-        return self.response.out.write(image.thumb_data)
+        return self.response.out.write(str(image.thumb_data))
 
 class GetImage(webapp.RequestHandler):
     def get(self,gallery,id,ext):
@@ -100,7 +100,7 @@ class GetImage(webapp.RequestHandler):
             mime_type = 'jpeg'
         self.response.headers['Content-Type'] = "image/%s" % mime_type
         self.response.headers['Cache-Control'] = "max-age=31536000"
-        return self.response.out.write(image.image_data)
+        return self.response.out.write(str(image.image_data))
 
 class ManageGalleries(webapp.RequestHandler):
     def _compose(self,flash=[]):
@@ -114,7 +114,7 @@ class ManageGalleries(webapp.RequestHandler):
             'galleries' : galleries,
             'disabled'  : disabled
         }
-        return self.response.out.write(template.render('photos/index.html',data))
+        return self.response.out.write(unicode(template.render('photos/index.html',data)))
     def get(self):
         return self._compose()
     @login_required
@@ -144,7 +144,7 @@ class QuickUpload(webapp.RequestHandler):
             'title'     : gallery.title,
             'photos'    : [ {'id':photo.key().id(), 'caption':photo.title, 'ext':photo.extension, 'fp':photo.frontpage} for photo in gallery.photos ],
         }
-        return self.response.out.write(template.render('photos/upload.html',data))        
+        return self.response.out.write(unicode(template.render('photos/upload.html',data)))        
 
     @login_required
     def get(self,gallery_slug):
@@ -214,8 +214,8 @@ class ViewGallery(webapp.RequestHandler):
         }
         if not gallery:
             self.error(404)
-            return self.response.out.write(template.render('404.html',data))
-        return self.response.out.write(template.render('photos/gallery.html',data))
+            return self.response.out.write(unicode(template.render('404.html',data)))
+        return self.response.out.write(unicode(template.render('photos/gallery.html',data)))
     
     def get(self,gallery):
         return self._compose(gallery)
