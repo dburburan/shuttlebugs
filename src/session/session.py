@@ -69,7 +69,7 @@ class Session(db.Model):
         self.coordinates = '%s,%s' % (coords['lat'],coords['lng'])
     # override put() to auto populate some fields    
     def put(self,*args,**kw):
-        self.slug = slugify(self.name)
+        self.slug = unicode(slugify(self.name))
         existing = db.Query(Session).filter('slug =',self.slug).get()
         if existing and existing.key() != self.key():
             raise db.Error('A session already exists with a similar name: "%s".' % existing.name)
