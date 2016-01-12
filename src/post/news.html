@@ -8,7 +8,7 @@
                 posted by {{post.author}} at {{post.date|date:"P D j M Y"}} {% if session.admin %}<a href="/news/edit/{{post.key}}">edit</a> <a href="/news/delete/{{post.key}}">delete</a>{% endif %}
             </em>
             <p>
-                {{post.content}}
+                {{post.content|safe}}
             </p>
         </div>
     {% endfor %}
