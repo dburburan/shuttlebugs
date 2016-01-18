@@ -30,7 +30,12 @@
                                 Price
                             </th>
                             <td>
-                                Members: ${{ sess.member_price|floatformat:"-2" }}, Casuals: ${{sess.casual_price|floatformat:"-2"}}
+                                Members: ${{ sess.member_price|floatformat:"-2" }},
+                                {% if sess.casual_price == 0 %}
+                                  No Casuals
+                                {% else %}
+                                  Casuals: ${{sess.casual_price|floatformat:"-2"}}
+                                {% endif %}
                             </td>
                         </tr>                        
                         <tr>
