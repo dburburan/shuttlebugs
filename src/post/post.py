@@ -231,7 +231,7 @@ class EditPost(webapp.RequestHandler):
         # check that the new title/slug has not already been used
         existing = False
         if post.type == 'page' and title != post.title:
-            existing = Post.all().filter('type =', 'page').filter('slug =', slugify(title)).fetch(1)
+            existing = Post.all().filter('type =', 'page').filter('slug =', unicode(slugify(title))).fetch(1)
 
         errors = []
         if not is_current_user_admin():
@@ -258,7 +258,7 @@ class EditPost(webapp.RequestHandler):
         post.content = content
         post.put()
 
-        return self.redirect('/page/%s' % slugify(title))
+        return self.redirect('/page/%s' % unicode(slugify(title)))
     
 class CreatePost(webapp.RequestHandler):
     
@@ -281,7 +281,7 @@ class CreatePost(webapp.RequestHandler):
         # if it's a page, check that the title/slug has not already been used
         existing = False
         if type == 'page':
-            existing = Post.all().filter('type =', 'page').filter('slug =', slugify(title)).fetch(1)
+            existing = Post.all().filter('type =', 'page').filter('slug =', unicode(slugify(title))).fetch(1)
 
         errors = []
         if not is_current_user_admin():
